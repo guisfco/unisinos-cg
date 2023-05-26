@@ -1,7 +1,8 @@
 # M2 | Tarefa - Instanciando objetos na cena 3D
 
-## Tutorial
-- Movimentação (eixo X, Y e Z)
-    - W, A, S e D
+## Instruções
+- Movimentação
+    - W, A, S e D (eixo X e Z)
+    - I e J (eixo Y)
 - Escala
     - UP (seta para cima) e DOWN (seta para baixo)
