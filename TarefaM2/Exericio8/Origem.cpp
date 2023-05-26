@@ -58,6 +58,7 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "}\n\0";
 
 bool rotateX=false, rotateY=false, rotateZ=false;
+double currentX = 0, currentZ = 0, currentY = 0, currentScale = 0.5;
 
 // Função MAIN
 int main()
@@ -109,7 +110,7 @@ int main()
 
 	// Gerando um buffer simples, com a geometria de um triângulo
 	GLuint VAO = setupGeometry();
-
+	GLuint VAO2 = setupGeometry();
 
 	glUseProgram(shaderID);
 
@@ -154,11 +155,20 @@ int main()
 
 		}
 
+		model = glm::translate(model, glm::vec3(currentX, currentY, currentZ));
+		model = glm::scale(model, glm::vec3(currentScale, currentScale, currentScale));
+
 		glUniformMatrix4fv(modelLoc, 1, FALSE, glm::value_ptr(model));
-		// Chamada de desenho - drawcall
-		// Poligono Preenchido - GL_TRIANGLES
 		
 		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		model = glm::translate(model, glm::vec3(-1.5, 0.0, -1.0));
+		model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
+
+		glUniformMatrix4fv(modelLoc, 1, FALSE, glm::value_ptr(model));
+
+		glBindVertexArray(VAO2);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		// Chamada de desenho - drawcall
@@ -172,6 +182,7 @@ int main()
 	}
 	// Pede pra OpenGL desalocar os buffers
 	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &VAO2);
 	// Finaliza a execução da GLFW, limpando os recursos alocados por ela
 	glfwTerminate();
 	return 0;
@@ -206,7 +217,46 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		rotateZ = true;
 	}
 
+	if (key == GLFW_KEY_D && action == GLFW_REPEAT)
+	{
+		currentX = currentX + 0.02;
+	}
 
+	if (key == GLFW_KEY_A && action == GLFW_REPEAT)
+	{
+		currentX = currentX - 0.02;
+	}
+
+	if (key == GLFW_KEY_W && action == GLFW_REPEAT)
+	{
+		currentZ = currentZ - 0.02;
+	}
+
+	if (key == GLFW_KEY_S && action == GLFW_REPEAT)
+	{
+
+		currentZ = currentZ + 0.02;
+	}
+
+	if (key == GLFW_KEY_J && action == GLFW_REPEAT)
+	{
+		currentY = currentY - 0.02;
+	}
+
+	if (key == GLFW_KEY_I && action == GLFW_REPEAT)
+	{
+		currentY = currentY + 0.02;
+	}
+
+	if (key == GLFW_KEY_DOWN && action == GLFW_REPEAT)
+	{
+		currentScale = currentScale - 0.02;
+	}
+
+	if (key == GLFW_KEY_UP && action == GLFW_REPEAT)
+	{
+		currentScale = currentScale + 0.02;
+	}
 
 }
 
@@ -298,32 +348,32 @@ int setupGeometry()
 		 0.5, -0.5, -0.5, 0.0, 1.0, 0.0,
 		 0.5,  0.5, -0.5, 0.0, 1.0, 0.0,
 
-		 //topo
-		 -0.5, 0.5,  0.5, 0.0, 0.0, 1.0,
-		 -0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-		  0.5, 0.5,  0.5, 0.0, 0.0, 1.0,
+		//topo
+		-0.5, 0.5,  0.5, 0.0, 0.0, 1.0,
+		-0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+		 0.5, 0.5,  0.5, 0.0, 0.0, 1.0,
 
-		 -0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-		  0.5, 0.5,  0.5, 0.0, 0.0, 1.0,
-		  0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+		-0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+		 0.5, 0.5,  0.5, 0.0, 0.0, 1.0,
+		 0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
 
-		  //esquerda
-		  -0.5,  0.5,  0.5, 1.0, 0.0, 1.0,
-		  -0.5, -0.5,  0.5, 1.0, 0.0, 1.0,
-		  -0.5,  0.5, -0.5, 1.0, 0.0, 1.0,
+		//esquerda
+		-0.5,  0.5,  0.5, 1.0, 0.0, 1.0,
+		-0.5, -0.5,  0.5, 1.0, 0.0, 1.0,
+		-0.5,  0.5, -0.5, 1.0, 0.0, 1.0,
 
-		  -0.5, -0.5,  0.5, 1.0, 0.0, 1.0,
-		  -0.5,  0.5, -0.5, 1.0, 0.0, 1.0,
-		  -0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
+		-0.5, -0.5,  0.5, 1.0, 0.0, 1.0,
+		-0.5,  0.5, -0.5, 1.0, 0.0, 1.0,
+		-0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
 
-		  //direita
-		  0.5,  0.5,  0.5, 0.5, 0.5, 0.5,
-		  0.5, -0.5,  0.5, 0.5, 0.5, 0.5,
-		  0.5,  0.5, -0.5, 0.5, 0.5, 0.5,
+		//direita
+		0.5,  0.5,  0.5, 0.5, 0.5, 0.5,
+		0.5, -0.5,  0.5, 0.5, 0.5, 0.5,
+		0.5,  0.5, -0.5, 0.5, 0.5, 0.5,
 
-		  0.5, -0.5,  0.5, 0.5, 0.5, 0.5,
-		  0.5,  0.5, -0.5, 0.5, 0.5, 0.5,
-		  0.5, -0.5, -0.5, 0.5, 0.5, 0.5,
+		0.5, -0.5,  0.5, 0.5, 0.5, 0.5,
+		0.5,  0.5, -0.5, 0.5, 0.5, 0.5,
+		0.5, -0.5, -0.5, 0.5, 0.5, 0.5,
 
 	};
 
