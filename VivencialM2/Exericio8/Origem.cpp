@@ -55,7 +55,6 @@ const GLchar* fragmentShaderSource = "#version 450\n"
 "}\n\0";
 
 bool rotateX=false, rotateY=false, rotateZ=false;
-double currentX = 0, currentZ = 0, currentY = 0, currentScale = 0.5;
 int verticesSize = 0;
 
 std::vector<std::string> splitString(const std::string& input, char delimiter) {
@@ -87,50 +86,49 @@ vector<float> parseObjToVertices(const std::string& filename) {
 			if (isVertice) {
 				float x = std::stof(row[1]), y = std::stof(row[2]), z = std::stof(row[3]);
 
-
 				uniqueVertices.push_back(x);
 				uniqueVertices.push_back(y);
 				uniqueVertices.push_back(z);
-
-				cout << x << " " << y << " " << z << "\n";
 			}
 
 			if (isFace) {
-				cout << row[1] << " " << row[2] << " " << row[3] << "\n";
 				std::vector<std::string> x = splitString(row[1], '/'), y = splitString(row[2], '/'), z = splitString(row[3], '/');
 
 				float v1 = stoi(x[0]) - 1, v2 = stoi(y[0]) - 1, v3 = stoi(z[0]) - 1;
 
-				cout << v1 << " " << v2 << " " << v3 << "\n";
-
+				//vertice 1
 				vertices.push_back(uniqueVertices[v1 * 3]);
 				vertices.push_back(uniqueVertices[v1 * 3 + 1]);
 				vertices.push_back(uniqueVertices[v1 * 3 + 2]);
 
+				//cor
 				vertices.push_back(1.0);
 				vertices.push_back(0.0);
 				vertices.push_back(0.0);
 
+				//vertice 2
 				vertices.push_back(uniqueVertices[v2 * 3]);
 				vertices.push_back(uniqueVertices[v2 * 3 + 1]);
 				vertices.push_back(uniqueVertices[v2 * 3 + 2]);
 
+				//cor
 				vertices.push_back(1.0);
 				vertices.push_back(0.0);
 				vertices.push_back(0.0);
 
+				//vertice 3
 				vertices.push_back(uniqueVertices[v3 * 3]);
 				vertices.push_back(uniqueVertices[v3 * 3 + 1]);
 				vertices.push_back(uniqueVertices[v3 * 3 + 2]);
 
-				//cores
+				//cor
 				vertices.push_back(1.0);
 				vertices.push_back(0.0);
 				vertices.push_back(0.0);
 			}
 		}
 
-		file.close(); // Close the file
+		file.close();
 
 		return vertices;
 	}
@@ -146,7 +144,7 @@ int main()
 	glfwInit();
 
 	// Criação da janela GLFW
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Tarefa M2 -- Guilherme", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Tarefa Vivencial -- Guilherme", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	// Fazendo o registro da função de callback para a janela GLFW
