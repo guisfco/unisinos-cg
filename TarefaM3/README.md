@@ -1,3 +1,3 @@
-# M2 | Tarefa - Atividade vivencial 1
+# M3 | Tarefa - Adicionando Texturas
 
 ![result](./suzanne.gif)
