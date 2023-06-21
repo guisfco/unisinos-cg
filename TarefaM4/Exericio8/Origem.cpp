@@ -31,6 +31,18 @@ int setupGeometry();
 void readMaterialsFile(string filename, map<string, string>& properties);
 float stofOrElse(string value, float def);
 
+struct Vertex {
+	float x, y, z, r = 0.4f, g = 0.1f, b = 0.4f;
+};
+
+struct Texture {
+	float s, t;
+};
+
+struct Normal {
+	float x, y, z;
+};
+
 vector<string> splitString(const string& input, char delimiter) {
 	vector<string> tokens;
 	istringstream iss(input);
@@ -44,10 +56,12 @@ vector<string> splitString(const string& input, char delimiter) {
 }
 
 vector<float> parseObjToVertices(const string& filename) {
-	ifstream file(filename); // Open the file for reading
-	vector<float> uniqueVertices;
-	vector<float> uniqueTextures;
-	vector<float> uniqueNormals;
+	ifstream file(filename);
+
+	vector<Vertex> uniqueVertices;
+	vector<Texture> uniqueTextures;
+	vector<Normal> uniqueNormals;
+
 	vector<float> vertices;
 
 	if (file.is_open()) {
@@ -64,24 +78,36 @@ vector<float> parseObjToVertices(const string& filename) {
 			if (isVertice) {
 				float x = stof(row[1]), y = stof(row[2]), z = stof(row[3]);
 
-				uniqueVertices.push_back(x);
-				uniqueVertices.push_back(y);
-				uniqueVertices.push_back(z);
+				Vertex vertex;
+
+				vertex.x = x;
+				vertex.y = y;
+				vertex.z = z;
+
+				uniqueVertices.push_back(vertex);
 			}
 
 			if (isTexture) {
 				float x = stof(row[1]), y = stof(row[2]);
 
-				uniqueTextures.push_back(x);
-				uniqueTextures.push_back(y);
+				Texture texture;
+
+				texture.s = x;
+				texture.t = y;
+
+				uniqueTextures.push_back(texture);
 			}
 
 			if (isNormal) {
 				float x = stof(row[1]), y = stof(row[2]), z = stof(row[3]);
 
-				uniqueNormals.push_back(x);
-				uniqueNormals.push_back(y);
-				uniqueNormals.push_back(z);
+				Normal normal;
+
+				normal.x = x;
+				normal.y = y;
+				normal.z = z;
+
+				uniqueNormals.push_back(normal);
 			}
 
 			if (isFace) {
@@ -91,62 +117,41 @@ vector<float> parseObjToVertices(const string& filename) {
 				int t1 = stoi(x[1]) - 1, t2 = stoi(y[1]) - 1, t3 = stoi(z[1]) - 1;
 				int n1 = stoi(x[2]) - 1, n2 = stoi(y[2]) - 1, n3 = stoi(z[2]) - 1;
 
-				//vertice 1
-				vertices.push_back(uniqueVertices[v1 * 3]);
-				vertices.push_back(uniqueVertices[v1 * 3 + 1]);
-				vertices.push_back(uniqueVertices[v1 * 3 + 2]);
+				vertices.push_back(uniqueVertices[v1].x);
+				vertices.push_back(uniqueVertices[v1].y);
+				vertices.push_back(uniqueVertices[v1].z);
+				vertices.push_back(uniqueVertices[v1].r);
+				vertices.push_back(uniqueVertices[v1].g);
+				vertices.push_back(uniqueVertices[v1].b);
+				vertices.push_back(uniqueTextures[t1].s);
+				vertices.push_back(uniqueTextures[t1].t);
+				vertices.push_back(uniqueNormals[n1].x);
+				vertices.push_back(uniqueNormals[n1].y);
+				vertices.push_back(uniqueNormals[n1].z);
 
-				//cor
-				vertices.push_back(0.4f);
-				vertices.push_back(0.1f);
-				vertices.push_back(0.4f);
+				vertices.push_back(uniqueVertices[v2].x);
+				vertices.push_back(uniqueVertices[v2].y);
+				vertices.push_back(uniqueVertices[v2].z);
+				vertices.push_back(uniqueVertices[v2].r);
+				vertices.push_back(uniqueVertices[v2].g);
+				vertices.push_back(uniqueVertices[v2].b);
+				vertices.push_back(uniqueTextures[t2].s);
+				vertices.push_back(uniqueTextures[t2].t);
+				vertices.push_back(uniqueNormals[n2].x);
+				vertices.push_back(uniqueNormals[n2].y);
+				vertices.push_back(uniqueNormals[n2].z);
 
-				//textura
-				vertices.push_back(uniqueTextures[t1 * 2]);
-				vertices.push_back(uniqueTextures[t1 * 2 + 1]);
-
-				//normal
-				vertices.push_back(uniqueNormals[n1 * 3]);
-				vertices.push_back(uniqueNormals[n1 * 3 + 1]);
-				vertices.push_back(uniqueNormals[n1 * 3 + 2]);
-
-				//vertice 2
-				vertices.push_back(uniqueVertices[v2 * 3]);
-				vertices.push_back(uniqueVertices[v2 * 3 + 1]);
-				vertices.push_back(uniqueVertices[v2 * 3 + 2]);
-
-				//cor
-				vertices.push_back(0.4f);
-				vertices.push_back(0.1f);
-				vertices.push_back(0.4f);
-
-				//textura
-				vertices.push_back(uniqueTextures[t2 * 2]);
-				vertices.push_back(uniqueTextures[t2 * 2 + 1]);
-
-				//normal
-				vertices.push_back(uniqueNormals[n2 * 3]);
-				vertices.push_back(uniqueNormals[n2 * 3 + 1]);
-				vertices.push_back(uniqueNormals[n2 * 3 + 2]);
-
-				//vertice 3
-				vertices.push_back(uniqueVertices[v3 * 3]);
-				vertices.push_back(uniqueVertices[v3 * 3 + 1]);
-				vertices.push_back(uniqueVertices[v3 * 3 + 2]);
-
-				//cor
-				vertices.push_back(0.4f);
-				vertices.push_back(0.1f);
-				vertices.push_back(0.4f);
-
-				//textura
-				vertices.push_back(uniqueTextures[t3 * 2]);
-				vertices.push_back(uniqueTextures[t3 * 2 + 1]);
-
-				//normal
-				vertices.push_back(uniqueNormals[n3 * 3]);
-				vertices.push_back(uniqueNormals[n3 * 3 + 1]);
-				vertices.push_back(uniqueNormals[n3 * 3 + 2]);
+				vertices.push_back(uniqueVertices[v3].x);
+				vertices.push_back(uniqueVertices[v3].y);
+				vertices.push_back(uniqueVertices[v3].z);
+				vertices.push_back(uniqueVertices[v3].r);
+				vertices.push_back(uniqueVertices[v3].g);
+				vertices.push_back(uniqueVertices[v3].b);
+				vertices.push_back(uniqueTextures[t3].s);
+				vertices.push_back(uniqueTextures[t3].t);
+				vertices.push_back(uniqueNormals[n3].x);
+				vertices.push_back(uniqueNormals[n3].y);
+				vertices.push_back(uniqueNormals[n3].z);
 			}
 		}
 
