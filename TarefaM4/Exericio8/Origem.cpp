@@ -43,6 +43,12 @@ struct Normal {
 	float x, y, z;
 };
 
+struct Face {
+	Vertex vertices[3];
+	Texture textures[3];
+	Normal normals[3];
+};
+
 vector<string> splitString(const string& input, char delimiter) {
 	vector<string> tokens;
 	istringstream iss(input);
@@ -61,8 +67,9 @@ vector<float> parseObjToVertices(const string& filename) {
 	vector<Vertex> uniqueVertices;
 	vector<Texture> uniqueTextures;
 	vector<Normal> uniqueNormals;
+	vector<Face> faces;
 
-	vector<float> vertices;
+	vector<float> buffer;
 
 	if (file.is_open()) {
 		string line;
@@ -117,47 +124,48 @@ vector<float> parseObjToVertices(const string& filename) {
 				int t1 = stoi(x[1]) - 1, t2 = stoi(y[1]) - 1, t3 = stoi(z[1]) - 1;
 				int n1 = stoi(x[2]) - 1, n2 = stoi(y[2]) - 1, n3 = stoi(z[2]) - 1;
 
-				vertices.push_back(uniqueVertices[v1].x);
-				vertices.push_back(uniqueVertices[v1].y);
-				vertices.push_back(uniqueVertices[v1].z);
-				vertices.push_back(uniqueVertices[v1].r);
-				vertices.push_back(uniqueVertices[v1].g);
-				vertices.push_back(uniqueVertices[v1].b);
-				vertices.push_back(uniqueTextures[t1].s);
-				vertices.push_back(uniqueTextures[t1].t);
-				vertices.push_back(uniqueNormals[n1].x);
-				vertices.push_back(uniqueNormals[n1].y);
-				vertices.push_back(uniqueNormals[n1].z);
+				Face face;
 
-				vertices.push_back(uniqueVertices[v2].x);
-				vertices.push_back(uniqueVertices[v2].y);
-				vertices.push_back(uniqueVertices[v2].z);
-				vertices.push_back(uniqueVertices[v2].r);
-				vertices.push_back(uniqueVertices[v2].g);
-				vertices.push_back(uniqueVertices[v2].b);
-				vertices.push_back(uniqueTextures[t2].s);
-				vertices.push_back(uniqueTextures[t2].t);
-				vertices.push_back(uniqueNormals[n2].x);
-				vertices.push_back(uniqueNormals[n2].y);
-				vertices.push_back(uniqueNormals[n2].z);
+				face.vertices[0] = uniqueVertices[v1];
+				face.textures[0] = uniqueTextures[t1];
+				face.normals[0] = uniqueNormals[n1];
 
-				vertices.push_back(uniqueVertices[v3].x);
-				vertices.push_back(uniqueVertices[v3].y);
-				vertices.push_back(uniqueVertices[v3].z);
-				vertices.push_back(uniqueVertices[v3].r);
-				vertices.push_back(uniqueVertices[v3].g);
-				vertices.push_back(uniqueVertices[v3].b);
-				vertices.push_back(uniqueTextures[t3].s);
-				vertices.push_back(uniqueTextures[t3].t);
-				vertices.push_back(uniqueNormals[n3].x);
-				vertices.push_back(uniqueNormals[n3].y);
-				vertices.push_back(uniqueNormals[n3].z);
+				face.vertices[1] = uniqueVertices[v2];
+				face.textures[1] = uniqueTextures[t2];
+				face.normals[1] = uniqueNormals[n2];
+
+				face.vertices[2] = uniqueVertices[v3];
+				face.textures[2] = uniqueTextures[t3];
+				face.normals[2] = uniqueNormals[n3];
+
+				faces.push_back(face);
 			}
 		}
 
 		file.close();
 
-		return vertices;
+		for (Face face : faces)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				buffer.push_back(face.vertices[i].x);
+				buffer.push_back(face.vertices[i].y);
+				buffer.push_back(face.vertices[i].z);
+
+				buffer.push_back(face.vertices[i].r);
+				buffer.push_back(face.vertices[i].g);
+				buffer.push_back(face.vertices[i].b);
+
+				buffer.push_back(face.textures[i].s);
+				buffer.push_back(face.textures[i].t);
+
+				buffer.push_back(face.normals[i].x);
+				buffer.push_back(face.normals[i].y);
+				buffer.push_back(face.normals[i].z);
+			}
+		}
+
+		return buffer;
 	}
 	else {
 		cout << "Unable to open the file: " << filename << endl;
