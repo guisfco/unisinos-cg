@@ -1,11 +1,11 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: O diretório intermediário (Debug\) contém arquivos compartilhados de outro projeto (Hello3D.vcxproj, TarefaM2.vcxproj, TarefaM3.vcxproj, TarefaM4.vcxproj, VivencialM2.vcxproj). Isso pode levar a um comportamento incorreto de limpeza e recompilação.
   Origem.cpp
 C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(26,33): warning C4305: 'inicializando': truncamento de 'double' para 'float'
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(376,11): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(377,11): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(381,16): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(382,16): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(384,10): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(385,10): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
-C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(180): warning C4715: 'parseObjToVertices': nem todos os caminhos de controle retornam um valor
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(424,11): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(425,11): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(429,16): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(430,16): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(432,10): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(433,10): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Exericio8\Origem.cpp(221): warning C4715: 'parseObjToVertices': nem todos os caminhos de controle retornam um valor
   Exericio8.vcxproj -> C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM5\Debug\TarefaM5.exe

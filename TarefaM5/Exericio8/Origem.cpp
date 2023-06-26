@@ -37,6 +37,7 @@ int setupGeometry();
 void readMaterialsFile(string filename, map<string, string>& properties);
 float stofOrElse(string value, float def);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+int loadTexture(string path);
 
 struct Vertex {
 	float x, y, z, r = 0.4f, g = 0.1f, b = 0.4f;
@@ -66,6 +67,46 @@ vector<string> splitString(const string& input, char delimiter) {
 	}
 
 	return tokens;
+}
+
+int loadTexture(string path)
+{
+	GLuint texID;
+
+	glGenTextures(1, &texID);
+	glBindTexture(GL_TEXTURE_2D, texID);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width, height, nrChannels;
+	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+
+	if (data)
+	{
+		if (nrChannels == 3) //jpg, bmp
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		}
+		else //png
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		}
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+
+	stbi_image_free(data);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return texID;
 }
 
 vector<float> parseObjToVertices(const string& filename) {
@@ -258,6 +299,10 @@ int main()
 	map<string, string> properties;
 	readMaterialsFile(mtlFile, properties);
 
+	GLuint texID = loadTexture(properties["map_Kd"]);
+
+	glUniform1i(glGetUniformLocation(shader.ID, "tex_buffer"), 0);
+
 	shader.setFloat("ka", stofOrElse(properties["Ka"], 0));
 	shader.setFloat("kd", stofOrElse(properties["Kd"], 1.5));
 	shader.setFloat("ks", stofOrElse(properties["Ks"], 0));
@@ -304,6 +349,9 @@ int main()
 
 		model = glm::scale(model, glm::vec3(0.5, 0.5, 0.5));
 		shader.setMat4("model", glm::value_ptr(model));
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texID);
 
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, verticesSize);
@@ -424,8 +472,8 @@ int setupGeometry()
 	glEnableVertexAttribArray(1);
 
 	//Atributo textura
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	//glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
 
 	//Atributo normal
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(GLfloat), (GLvoid*)(8 * sizeof(GLfloat)));

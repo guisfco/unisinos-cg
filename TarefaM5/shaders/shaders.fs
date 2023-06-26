@@ -2,6 +2,7 @@
 
 in vec3 finalColor;
 in vec3 scaledNormal;
+in vec2 texCoord;
 in vec3 fragPos;
 
 uniform vec3 lightPos;
@@ -13,6 +14,8 @@ uniform float ks;
 uniform float q;
 
 uniform vec3 cameraPos;
+
+uniform sampler2D tex_buffer;
 
 out vec4 color;
 
@@ -33,7 +36,9 @@ void main()
 	spec = pow(spec,q);
 	vec3 specular = ks * spec * lightColor;
 
-	vec3 result = (ambient + diffuse) * finalColor + specular;
+	vec3 texColor = texture(tex_buffer, texCoord).xyz;
+
+	vec3 result = (ambient + diffuse) * texColor + specular;
 
 	color = vec4(result,1.0);
 }
