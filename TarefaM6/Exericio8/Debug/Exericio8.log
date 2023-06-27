@@ -1,0 +1,11 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: O diretório intermediário (Debug\) contém arquivos compartilhados de outro projeto (Hello3D.vcxproj, TarefaM2.vcxproj, TarefaM3.vcxproj, TarefaM4.vcxproj, TarefaM5.vcxproj, VivencialM2.vcxproj). Isso pode levar a um comportamento incorreto de limpeza e recompilação.
+  Origem.cpp
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(27,33): warning C4305: 'inicializando': truncamento de 'double' para 'float'
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(441,11): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(442,11): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(446,16): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(447,16): warning C4244: 'inicializando': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(449,10): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(450,10): warning C4244: '=': conversão de 'double' para 'float', possível perda de dados
+C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Exericio8\Origem.cpp(223): warning C4715: 'parseObjToVertices': nem todos os caminhos de controle retornam um valor
+  Exericio8.vcxproj -> C:\Users\Guilherme\Documents\unisinos\unisinos-cg\TarefaM6\Debug\TarefaM6.exe
